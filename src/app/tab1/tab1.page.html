@@ -13,9 +13,8 @@
 
     <ion-item>
 
-      <ion-item slot="start">
-        <ion-label position="floating" color="primary">Filtrar por:</ion-label>
-        <ion-select interface="popover">
+      <ion-item >
+        <ion-select label="Filtrar por" interface="popover">
           <ion-select-option value="0">Data Entrega</ion-select-option>
           <ion-select-option value="1">Data Inicio</ion-select-option>
           <ion-select-option value="2">Concluidas</ion-select-option>
@@ -23,32 +22,25 @@
         </ion-select>
       </ion-item>
 
-      <ion-item slot="end">
-        <ion-label position="floating" color="primary">Categoria:</ion-label>
-        <ion-select interface="popover">
+      <ion-item >
+        <ion-select label="Categoria" interface="popover">
           <ion-select-option value="0">Pessoal</ion-select-option>
           <ion-select-option value="1">Academica</ion-select-option>
           <ion-select-option value="2">Profissional</ion-select-option>
         </ion-select>
       </ion-item>
-
     </ion-item>
 
+
     <ion-item>
-      <ion-icon name="newspaper-outline"></ion-icon>
-      <ion-label>Titulo da tarefa</ion-label>
-
-      <ion-button color="primary" (click)="ok()">
-        <ion-icon name="eye"></ion-icon>
-      </ion-button>
-
-      <ion-button color="warning" (click)="ok2()">
-        <ion-icon name="pencil-outline"></ion-icon>
-      </ion-button>
-
-      <ion-button color="danger">
-        <ion-icon name="trash"></ion-icon>
-      </ion-button>
+      <ion-list>
+        <ion-item *ngFor="let tarefa of tarefas, let i = index">
+        <ion-label>{{i + 1}} - {{tarefa.descricao}}</ion-label>
+        <ion-icon color="danger" (click)="apagar(i)" name="trash-outline"></ion-icon>
+        <ion-icon color="warning" (click)="ver(i)" name="pencil-outline"></ion-icon>
+        <ion-icon color="primary" (click)="visualizar(i)" name="eye"></ion-icon>
+        </ion-item>
+        </ion-list>
 
     </ion-item>
 

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-tab2',
@@ -6,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['tab2.page.scss']
 })
 export class Tab2Page {
-  terefas = new Array<Tarefa>;
+  tarefas = new Array<Tarefa>;
   titulo !: string;
   descricao!: string;
   dtInicio!: Date;
@@ -15,9 +16,43 @@ export class Tab2Page {
   categoria!: String;
   private chaveTarefas = 'tarefas';
 
-  constructor() {}
+  constructor(private storage: Storage) {
+    this.init();
+  }
+
+  async init(){
+    this.storage = await this.storage.create();
+  }
+
+  salvar(){
+    if(this.validarCampos()){
+      let tarefa = new Tarefa(this.titulo, this.descricao, this.dtInicio, this.dtEntrega, this.isConcluido, this.categoria);
+      this.tarefas.push(tarefa);
+      this.storage.set(this.chaveTarefas, this.tarefas);
+      //redirecionar pra lista de tarefas aqui
+    }
+  }
+
+  private validarCampos(){
+    if (this.titulo === undefined){
+      return false;
+    }else if(this.descricao === undefined){
+      return false;
+    }else if(this.dtInicio === undefined){
+      return false;
+    }else if(this.dtEntrega === undefined){
+      return false;
+    }else if(this.isConcluido === undefined){
+      return false;
+    }else if(this.categoria === undefined){
+      return false;
+    }else{
+      return true;
+    }
+  }
 
 }
+
 
 export class Tarefa {
 
