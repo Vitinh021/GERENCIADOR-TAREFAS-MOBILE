@@ -14,36 +14,31 @@
     <ion-item>
 
       <ion-item >
-        <ion-select label="Filtrar por" interface="popover">
-          <ion-select-option value="0">Data Entrega</ion-select-option>
-          <ion-select-option value="1">Data Inicio</ion-select-option>
-          <ion-select-option value="2">Concluidas</ion-select-option>
-          <ion-select-option value="3">Atrasadas</ion-select-option>
+        <ion-select label="Situação" (ionChange)="selecionarFiltro($event)" interface="popover">
+          <ion-select-option value="false">Não concluidas</ion-select-option>
+          <ion-select-option value="true">Concluidas</ion-select-option>
         </ion-select>
       </ion-item>
 
       <ion-item >
-        <ion-select label="Categoria" interface="popover">
-          <ion-select-option value="0">Pessoal</ion-select-option>
-          <ion-select-option value="1">Academica</ion-select-option>
-          <ion-select-option value="2">Profissional</ion-select-option>
+        <ion-select label="Categoria"  [(ngModel)]="categoriaSelecionada" (ionChange)="selecionarCategoria($event)" interface="popover">
+          <ion-select-option value="0">Nenhuma</ion-select-option>
+          <ion-select-option value="1">Pessoal</ion-select-option>
+          <ion-select-option value="2">Academica</ion-select-option>
+          <ion-select-option value="3">Profissional</ion-select-option>
         </ion-select>
       </ion-item>
     </ion-item>
-
 
     <ion-item>
       <ion-list>
         <ion-item *ngFor="let tarefa of tarefas, let i = index">
         <ion-label>{{i + 1}} - {{tarefa.descricao}}</ion-label>
-        <ion-icon color="danger" (click)="apagar(i)" name="trash-outline"></ion-icon>
-        <ion-icon color="warning" (click)="ver(i)" name="pencil-outline"></ion-icon>
-        <ion-icon color="primary" (click)="visualizar(i)" name="eye"></ion-icon>
+        <ion-icon slot="end" color="danger" (click)="apagar(i)" name="trash-outline"></ion-icon>
+        <ion-icon color="warning" (click)="editar()" name="pencil-outline"></ion-icon>
         </ion-item>
         </ion-list>
-
     </ion-item>
-
     </ion-list>
 <!--
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">

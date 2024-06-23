@@ -11,20 +11,20 @@
 <ion-content [fullscreen]="true">
 
   <ion-list>
-    <ion-item>
+    <ion-item lines="none">
       <ion-input label="Titulo" errorText="Preencha o titulo" type="text" [(ngModel)]="titulo"></ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item >
       <ion-textarea label="Descrição" [(ngModel)]="descricao" auto-grow="true" style="white-space: pre-line;"></ion-textarea>
     </ion-item>
 
     <ion-item>
-      <ion-input label="Inicio" [(ngModel)]="dtInicio" slot="end" type="date"></ion-input>
+      <ion-input label="Inicio" [(ngModel)]="dtInicio" justify="space-between"   type="date"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input label="Entrega" [(ngModel)]="dtEntrega" slot="end" type="date"></ion-input>
+      <ion-input label="Entrega" [(ngModel)]="dtEntrega" justify="space-between" type="date"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -33,9 +33,9 @@
 
     <ion-item>
       <ion-select label="Categoria" [(ngModel)]="categoria" interface="popover">
-        <ion-select-option value="0">Pessoal</ion-select-option>
-        <ion-select-option value="1">Academica</ion-select-option>
-        <ion-select-option value="2">Profissonal</ion-select-option>
+        <ion-select-option value="1">Pessoal</ion-select-option>
+        <ion-select-option value="2">Academica</ion-select-option>
+        <ion-select-option value="3">Profissonal</ion-select-option>
       </ion-select>
     </ion-item>
 

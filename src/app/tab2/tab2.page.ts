@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { Storage } from '@ionic/storage-angular';
+import { LocalStorageService } from './../local-storage.service';
+import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-tab2',
@@ -14,22 +16,26 @@ export class Tab2Page {
   dtEntrega!: Date;
   isConcluido!: Boolean;
   categoria!: String;
-  private chaveTarefas = 'tarefas';
 
-  constructor(private storage: Storage) {
-    this.init();
-  }
+  constructor(public localStorageService : LocalStorageService, private navCtrl: NavController) {}
 
-  async init(){
-    this.storage = await this.storage.create();
-  }
+  /*ionViewWillEnter() {
+    this.storage.get("tarefas")
+    .then((resposta : any) => {
+      this.tarefas = resposta;
+    })
+    .catch((erro : any)=>{
+      console.log("Error: " + erro);
+    })
+  }*/
 
   salvar(){
     if(this.validarCampos()){
+      if(this.isConcluido === undefined){ this.isConcluido = false; }
       let tarefa = new Tarefa(this.titulo, this.descricao, this.dtInicio, this.dtEntrega, this.isConcluido, this.categoria);
-      this.tarefas.push(tarefa);
-      this.storage.set(this.chaveTarefas, this.tarefas);
-      //redirecionar pra lista de tarefas aqui
+      this.localStorageService.setTaks(tarefa);
+      //alert("salva com sucesso");
+      this.navCtrl.navigateRoot('/tabs/tab1');
     }
   }
 
@@ -42,17 +48,13 @@ export class Tab2Page {
       return false;
     }else if(this.dtEntrega === undefined){
       return false;
-    }else if(this.isConcluido === undefined){
-      return false;
     }else if(this.categoria === undefined){
       return false;
     }else{
       return true;
     }
   }
-
 }
-
 
 export class Tarefa {
 
