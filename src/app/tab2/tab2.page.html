@@ -4,7 +4,7 @@
       <ion-back-button defaultHref="/tabs/tab1"></ion-back-button>
     </ion-buttons>
 
-    <ion-title size="medium">Adicionar</ion-title>
+    <ion-title size="medium">{{ edit ? 'Editar' : 'Adicionar' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -44,5 +44,11 @@
 </ion-content>
 
 <ion-footer>
+  <ng-container *ngIf="edit; else adicionar">
+    <ion-button (click)="editar()" color="success" expand="full">Atualizar</ion-button>
+  </ng-container>
+  <ng-template #adicionar>
     <ion-button (click)="salvar()" color="success" expand="full">Salvar</ion-button>
+  </ng-template>
+
 </ion-footer>

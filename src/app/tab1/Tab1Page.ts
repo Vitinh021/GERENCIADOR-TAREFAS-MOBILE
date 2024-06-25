@@ -1,7 +1,8 @@
+import { Tarefa } from './../tab2/tab2.page';
 import { LocalStorageService } from './../local-storage.service';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab1',
@@ -12,54 +13,40 @@ import { Storage } from '@ionic/storage';
 export class Tab1Page {
   tarefas = new Array;
   categoriaSelecionada: string = "0";
+  situacaoSelecionada: string = "0";
 
-  constructor(public localStorageService:LocalStorageService, private navCtrl: NavController) {}
-
-  /*ngOnInit(): void {
-    this.storage.get("tarefas")
-    .then((resposta : any) => {
-      this.tarefas = resposta;
-    })
-    .catch((erro : any)=>{
-      console.log("Error: " + erro);
-    })
-  }*/
+  constructor(public localStorageService:LocalStorageService, private navCtrl: NavController, private router: Router) {}
 
   ionViewWillEnter() {
-    //this.tarefas = this.localStorageService.getTaks();
-    //EXIBIR CARREGANDO
     this.localStorageService.getTaks()
     .then((tarefas) => {
+      this.tarefas = [];
       this.tarefas = tarefas;
-      //PARAR CARREGANDO
     })
     .catch((erro) => {
 
     });
-    console.log('terminei')
-    /*this.storage.get("tarefas")
-    .then((resposta : any) => {
-      this.tarefas = resposta;
-    })
-    .catch((erro : any)=>{
-      console.log("Error: " + erro);
-    })*/
   }
 
-  editar() {
-    //acao paraa editar
-    //<ion-badge *ngIf="tarefa.getIsConcluido() = 8" color="primary">Média: {{aluno.getNota()}}</ion-badge>
+  editar(tarefa : Tarefa) {
+    this.router.navigate(['/tabs/tab2', { tarefa: JSON.stringify(tarefa) }]);
   }
 
-  apagar(i: any) {
+  apagar(titulo: string) {
+    this.localStorageService.claerTaks();
+    this.tarefas.forEach(task => {
+      if(task.getTitulo() != titulo){
+        this.localStorageService.setTaks(task);
+      }
+    });
 
-    //this.tarefas.splice(i, 1);
-    //this.storage.set('tarefas', this.tarefas);
+    alert("Tarefa excluida com sucesso!");
+    window.location.reload();
   }
 
-  selecionarCategoria(evento: any) {
-    /*this.tarefas = []
-    this.storage.get("tarefas")
+  filtrarCategoria(evento: any) {
+    this.tarefas = []
+    this.localStorageService.getTaks()
     .then((resposta : any) => {
       if(evento.detail.value == 0){
         resposta.forEach((tarefa:any) => {
@@ -75,24 +62,26 @@ export class Tab1Page {
     })
     .catch((erro : any)=>{
       console.log("Error: " + erro);
-    })*/
+    })
   }
 
-  selecionarFiltro(evento: any) {
-    /*this.tarefas = []
-    this.storage.get("tarefas")
+  filtrarConcluido(evento: any) {
+    this.tarefas = []
+    this.localStorageService.getTaks()
     .then((resposta : any) => {
       resposta.forEach((tarefa:any) => {
-        console.log(tarefa.isConcluido);
-        console.log(evento.detail.value);
-        if(tarefa.isConcluido.toString() == evento.detail.value){
+        if(evento.detail.value == 0){
           this.tarefas.push(tarefa);
+        }else{
+          if(tarefa.isConcluido.toString() == evento.detail.value){
+            this.tarefas.push(tarefa);
+          }
         }
       });
     })
     .catch((erro : any)=>{
       console.log("Error: " + erro);
-    })*/
+    })
   }
 
 }

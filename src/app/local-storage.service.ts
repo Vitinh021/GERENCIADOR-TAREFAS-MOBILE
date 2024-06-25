@@ -38,4 +38,9 @@ export class LocalStorageService {
     });
 
   }
+
+  claerTaks(){
+    this.tarefas = []
+    this.storage.set('tarefas', this.tarefas);
+  }
 }
